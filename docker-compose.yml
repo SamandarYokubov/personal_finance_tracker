@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  main-db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: maindb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - main-db-data:/var/lib/postgresql/data
+
+  auth_service:
+    build: ./AuthService
+    depends_on:
+      - main-db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5001:80"
+    restart: on-failure
+
+  category_service:
+    build: ./CategoryService
+    depends_on:
+      - main-db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5002:80"
+    restart: on-failure
+
+  finance_service:
+    build: ./FinanceService
+    depends_on:
+      - main-db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5003:80"
+    restart: on-failure
+
+  audit_service:
+    build: ./AuditService
+    depends_on:
+      - main-db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5004:80"
+    restart: on-failure
+
+  statistics_service:
+    build: ./StatisticsService
+    depends_on:
+      - category_service
+      - finance_service
+      - redis
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - REDIS_CONNECTION=redis:6379
+    ports:
+      - "5005:80"
+    restart: on-failure
+
+  api_gateway:
+    build: ./ApiGateway
+    ports:
+      - "5050:80"
+    depends_on:
+      - auth_service
+      - category_service
+      - finance_service
+      - audit_service
+      - statistics_service
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    restart: always
+
+volumes:
+  main-db-data: 

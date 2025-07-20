@@ -1,0 +1,54 @@
+{
+  "SwaggerEndPoints": [
+    {
+      "Key": "auth_service",
+      "Config": [
+        {
+          "Name": "Auth Service",
+          "Version": "v1",
+          "Url": "http://auth_service:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "category_service",
+      "Config": [
+        {
+          "Name": "Category Service",
+          "Version": "v1",
+          "Url": "http://category_service:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "finance_service",
+      "Config": [
+        {
+          "Name": "Finance Service",
+          "Version": "v1",
+          "Url": "http://finance_service:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "audit_service",
+      "Config": [
+        {
+          "Name": "Audit Service",
+          "Version": "v1",
+          "Url": "http://audit_service:80/swagger/v1/swagger.json"
+        }
+      ]
+    },
+    {
+      "Key": "statistics_service",
+      "Config": [
+        {
+          "Name": "Statistics Service",
+          "Version": "v1",
+          "Url": "http://statistics_service:80/swagger/v1/swagger.json"
+        }
+      ]
+    }
+  ]
+} 
